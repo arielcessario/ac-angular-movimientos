@@ -34,7 +34,7 @@
                 service.getMaxAsiento = getMaxAsiento;
                 service.deleteAsiento = deleteAsiento;
 
-                function armarMovimiento(tipo_asiento, sucursal, forma_pago, total, descuento, detalle, items){
+                function armarMovimiento(tipo_asiento, sucursal, forma_pago, total, descuento, detalle, items, callback){
                     //Tipos:
                     //001 - Venta de productos
                     //002 - Compra de productos
@@ -133,8 +133,11 @@
 
                     }
 
-                    console.log(asiento);
-                    console.log(MovimientoStockFinal.stocks_finales);
+
+                    save(callback, asiento);
+
+                    //console.log(asiento);
+                    //console.log(MovimientoStockFinal.stocks_finales);
 
                 }
 
@@ -173,6 +176,7 @@
 
                             }
                             stocks_finales.push(stock_final_item);
+                            stock_final_item = {};
                         }
                     }
 
