@@ -1,7 +1,14 @@
 <?php
 
 session_start();
-require_once './MyDBi.php';
+
+if(file_exists('./MyDBi.php'))
+{
+    require_once './MyDBi.php';
+}else{
+    require_once '../../../MyDBi.php';
+}
+
 
 $data = file_get_contents("php://input");
 
