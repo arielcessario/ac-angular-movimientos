@@ -14,9 +14,13 @@
     var scripts = document.getElementsByTagName("script");
     var currentScriptPath = scripts[scripts.length - 1].src;
 
+    app.service('MovimientoStockFinal', [function(){
+        this.stocks_finales = [];
+    }]);
+
     app.factory('MovimientosService',
-        ['$http', 'MovimientosList',
-            function ($http, MovimientosList) {
+        ['$http', 'MovimientosList', 'MovimientoStockFinal',
+            function ($http, MovimientosList, MovimientoStockFinal) {
                 var vm = this;
 
                 var url = currentScriptPath.replace('movimientos-service.js', 'movimientos.php');
@@ -130,6 +134,7 @@
                     }
 
                     console.log(asiento);
+                    console.log(MovimientoStockFinal.stocks_finales);
 
                 }
 
@@ -145,7 +150,6 @@
 
                         if(cant_a_vender > 0){
                             stock_final_item.stock_id = item.stock[i].stock_id;
-                            console.log(cant_a_vender);
                             if(cant_a_vender > item.stock[i].cant_actual){
 
                                 stock_final_item.cant_final = 0;
@@ -171,6 +175,9 @@
                             stocks_finales.push(stock_final_item);
                         }
                     }
+
+                    MovimientoStockFinal.stocks_finales = stocks_finales;
+
                     return asiento;
 
 
