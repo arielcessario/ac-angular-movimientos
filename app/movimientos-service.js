@@ -135,6 +135,7 @@
 
                 function getCosto(item, asiento){
 
+
                     var cant_a_vender = item.cantidad;
                     var stock_final_item = {};
                     var stocks_finales= [];
@@ -144,26 +145,27 @@
 
                         if(cant_a_vender > 0){
                             stock_final_item.stock_id = item.stock[i].stock_id;
+                            console.log(cant_a_vender);
                             if(cant_a_vender > item.stock[i].cant_actual){
 
                                 stock_final_item.cant_final = 0;
-                                cant_a_vender = cant_a_vender - item.stock[i].cant_actual;
                                 asiento.push(MovimientosList.cmv(item.stock[i].costo_uni,'',item.producto_id, item.stock[i].cant_actual));
                                 asiento.push(MovimientosList.mercaderias(item.stock[i].costo_uni,'',item.producto_id, item.stock[i].cant_actual));
+                                cant_a_vender = cant_a_vender - item.stock[i].cant_actual;
 
                             }else if(cant_a_vender < item.stock[i].cant_actual){
 
                                 stock_final_item.cant_final = item.stock[i].cant_actual - cant_a_vender;
-                                cant_a_vender = item.stock[i].cant_actual - cant_a_vender;
                                 asiento.push(MovimientosList.cmv(item.stock[i].costo_uni,'',item.producto_id, cant_a_vender));
                                 asiento.push(MovimientosList.mercaderias(item.stock[i].costo_uni,'',item.producto_id, cant_a_vender));
+                                cant_a_vender = 0;
 
                             }else if (cant_a_vender == item.stock[i].cant_actual){
 
                                 stock_final_item.cant_final = 0;
-                                cant_a_vender = 0;
                                 asiento.push(MovimientosList.cmv(item.stock[i].costo_uni,'',item.producto_id, cant_a_vender));
                                 asiento.push(MovimientosList.mercaderias(item.stock[i].costo_uni,'',item.producto_id, cant_a_vender));
+                                cant_a_vender = 0;
 
                             }
                             stocks_finales.push(stock_final_item);
