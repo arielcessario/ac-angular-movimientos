@@ -60,7 +60,7 @@
                                 getCosto(items[i], asiento, sucursal_id, usuario_id);
 
                             }
-                            pagando = -1;
+                            //pagando = -1;
 
                             break;
                         case '002':
