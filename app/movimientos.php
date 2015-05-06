@@ -133,7 +133,6 @@ function save($movimiento, $asiento_id){
         "cuenta_id" => $decoded->cuenta_id,
         "asiento_id" => $asiento_id,
         "importe" => $decoded->importe,
-        "detalles" => $decoded->detalles,
         "usuario_id" => $decoded->usuario_id
     );
 
