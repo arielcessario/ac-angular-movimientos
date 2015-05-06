@@ -218,7 +218,7 @@
                             if (cant_a_vender > item.stock[i].cant_actual) {
 
                                 stock_final_item.cant_final = 0;
-                                asiento.push(MovimientosList.cmv(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, item.stock[i].cant_actual), usuario_id);
+                                asiento.push(MovimientosList.cmv(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, item.stock[i].cant_actual, usuario_id));
                                 asiento.push(MovimientosList.mercaderias(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, item.stock[i].cant_actual, usuario_id));
                                 cant_a_vender = cant_a_vender - item.stock[i].cant_actual;
 
