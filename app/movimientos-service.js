@@ -202,7 +202,7 @@
                     return asiento;
                 }
 
-                function getCosto(item, asiento, sucursal_id) {
+                function getCosto(item, asiento, sucursal_id, usuario_id) {
 
 
                     var cant_a_vender = item.cantidad;
@@ -211,28 +211,29 @@
 
                     for (var i = 0; i < item.stock.length; i++) {
                         //console.log(new Date(item.stock[i].fecha_compra));
+                        //sucursal_id, costo, comentario, producto_id, cantidad, usuario_id
 
                         if (cant_a_vender > 0) {
                             stock_final_item.stock_id = item.stock[i].stock_id;
                             if (cant_a_vender > item.stock[i].cant_actual) {
 
                                 stock_final_item.cant_final = 0;
-                                asiento.push(MovimientosList.cmv(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, item.stock[i].cant_actual));
-                                asiento.push(MovimientosList.mercaderias(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, item.stock[i].cant_actual));
+                                asiento.push(MovimientosList.cmv(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, item.stock[i].cant_actual), usuario_id);
+                                asiento.push(MovimientosList.mercaderias(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, item.stock[i].cant_actual, usuario_id));
                                 cant_a_vender = cant_a_vender - item.stock[i].cant_actual;
 
                             } else if (cant_a_vender < item.stock[i].cant_actual) {
 
                                 stock_final_item.cant_final = item.stock[i].cant_actual - cant_a_vender;
-                                asiento.push(MovimientosList.cmv(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, cant_a_vender));
-                                asiento.push(MovimientosList.mercaderias(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, cant_a_vender));
+                                asiento.push(MovimientosList.cmv(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, cant_a_vender, usuario_id));
+                                asiento.push(MovimientosList.mercaderias(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, cant_a_vender, usuario_id));
                                 cant_a_vender = 0;
 
                             } else if (cant_a_vender == item.stock[i].cant_actual) {
 
                                 stock_final_item.cant_final = 0;
-                                asiento.push(MovimientosList.cmv(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, cant_a_vender));
-                                asiento.push(MovimientosList.mercaderias(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, cant_a_vender));
+                                asiento.push(MovimientosList.cmv(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, cant_a_vender, usuario_id));
+                                asiento.push(MovimientosList.mercaderias(sucursal_id, item.stock[i].costo_uni, 'Venta de Mercaderías', item.producto_id, cant_a_vender, usuario_id));
                                 cant_a_vender = 0;
 
                             }
