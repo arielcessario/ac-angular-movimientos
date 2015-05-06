@@ -57,7 +57,7 @@
                         case '001':
                             for (var i = 0; i < items.length; i++) {
                                 asiento.push(MovimientosList.ventaMercaderias(sucursal_id, items[i].producto_id, items[i].precio_unidad, items[i].cantidad, items[i].precio_total, 'Venta de producto', usuario_id));
-                                getCosto(items[i], asiento, sucursal_id);
+                                getCosto(items[i], asiento, sucursal_id, usuario_id);
 
                             }
                             pagando = -1;
