@@ -86,7 +86,12 @@
                             console.log('entra2');
                             break;
                         case '007':
-                            asiento.push(MovimientosList.sueldos(sucursal_id, total, comentario, usuario_id));
+                            if(subtipo_asiento == '01'){
+                                asiento.push(MovimientosList.sueldos(sucursal_id, total, comentario, usuario_id));
+                            }else{
+                                asiento.push(MovimientosList.aguinaldos(sucursal_id, total, comentario, usuario_id));
+                            }
+
                             pagando = -1;
                             break;
                         case '008':
