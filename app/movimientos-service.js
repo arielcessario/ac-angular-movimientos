@@ -213,7 +213,7 @@
                         //console.log(new Date(item.stock[i].fecha_compra));
                         //sucursal_id, costo, comentario, producto_id, cantidad, usuario_id
 
-                        if (cant_a_vender > 0) {
+                        if (cant_a_vender > 0 && item.stock[i].sucursal_id == sucursal_id) {
                             stock_final_item.stock_id = item.stock[i].stock_id;
                             if (cant_a_vender > item.stock[i].cant_actual) {
 
