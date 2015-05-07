@@ -47,6 +47,7 @@
                     //011 - Intereses Ganados
                     //012 - Otros Gastos
                     //013 - Retiro caja chija
+                    //014 - Otros Impuestos
 
                     // Esta variable hace que se convierta el valor en negativo en la caja, significa que sale un valor
                     var pagando = 1;
@@ -113,6 +114,17 @@
                             break;
                         case '012':
                             asiento.push(MovimientosList.otrosGastos(sucursal_id, total, comentario, usuario_id));
+                            pagando = -1;
+                            break;
+                        case '014':
+                            //5.2.5.01	IMPUESTOS FISCALES Y MUNICIP.
+                            //5.2.5.02	MONOTRIBUTO SOCIEDAD
+                            //5.2.5.03	MONOTRIBUTO PERSONAL
+                            //5.2.5.04	IDB
+                            //5.2.5.05	SADAIC
+                            //5.2.5.06	PERCEPCION GANANCIAS
+                            //5.2.5.07	PERCEPCION IIBB
+                            asiento.push(MovimientosList.otrosImpuestos(sucursal_id, total, comentario, subtipo_asiento, usuario_id));
                             pagando = -1;
                             break;
                     }

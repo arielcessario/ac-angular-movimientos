@@ -249,7 +249,7 @@
             }
         };
 
-        this.otroImpuestos = function (sucursal_id, importe, comentario, tipo_id, usuario_id) {
+        this.otrosImpuestos = function (sucursal_id, importe, comentario, tipo_id, usuario_id) {
             //5.2.5.01	IMPUESTOS FISCALES Y MUNICIP.
             //5.2.5.02	MONOTRIBUTO SOCIEDAD
             //5.2.5.03	MONOTRIBUTO PERSONAL
