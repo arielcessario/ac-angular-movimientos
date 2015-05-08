@@ -48,6 +48,7 @@
                     //012 - Otros Gastos
                     //013 - Retiro caja chija
                     //014 - Otros Impuestos
+                    //015 - Deudores
 
                     // Esta variable hace que se convierta el valor en negativo en la caja, significa que sale un valor
                     var pagando = 1;
@@ -132,15 +133,27 @@
                             asiento.push(MovimientosList.otrosImpuestos(sucursal_id, total, comentario, subtipo_asiento, usuario_id));
                             pagando = -1;
                             break;
+                        case '015':
+                            if(forma_pago == '01' ||
+                               forma_pago == '02' ||
+                               forma_pago == '03' ||
+                               forma_pago == '04' ||
+                               forma_pago == '05' ||
+                               forma_pago == '06'){
+                                pagando = -1;
+                            }
+                            asiento.push(MovimientosList.deudores(sucursal_id, pagando * total, cliente_id, comentario, usuario_id));
+                            pagando = 1;
+                            break;
                     }
 
 
 
-                    formas_pagos(forma_pago, sucursal_id, total, descuento, detalle, usuario_id, pagando, comentario, asiento);
+                    formas_pagos(forma_pago, sucursal_id, total, descuento, detalle, usuario_id,cliente_id,  pagando, comentario, asiento);
 
                     if(transferencia_desde !== '00'){
                         pagando = -1;
-                        formas_pagos(transferencia_desde, sucursal_id, total, descuento, detalle, usuario_id, pagando, comentario, asiento);
+                        formas_pagos(transferencia_desde, sucursal_id, total, descuento, detalle, usuario_id,cliente_id,  pagando, comentario, asiento);
                     }
 
 
@@ -151,14 +164,15 @@
 
                 }
 
-                function formas_pagos(forma_pago, sucursal_id, total, descuento, detalle, usuario_id, pagando, comentario, asiento){
+                function formas_pagos(forma_pago, sucursal_id, total, descuento, detalle, usuario_id,cliente_id,  pagando, comentario, asiento){
                     //Formas de pago
                     //01 - Efectivo
                     //02 - TD
                     //03 - TC
                     //04 - Transferencia CA
                     //05 - Transferencia CC
-                    //05 - Caja General
+                    //06 - Caja General
+                    //07 - Clientes
                     switch (forma_pago) {
                         case '01':
                             if (descuento !== '' && descuento > 0) {
@@ -211,6 +225,15 @@
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
                                 asiento.push(MovimientosList.cajaGeneral(sucursal_id, pagando * total, comentario, usuario_id));
+                            }
+                            break;
+                        case '07':
+                            //sucursal, importe, comentario, tarjeta, usuario_id
+                            if (descuento !== '' && descuento > 0) {
+                                asiento.push(MovimientosList.deudores(sucursal_id, pagando * (total - descuento),cliente_id,  'Ingreso a Deudores', usuario_id));
+                                asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
+                            } else {
+                                asiento.push(MovimientosList.deudores(sucursal_id, pagando * total,cliente_id,  'Ingreso a Deudores', usuario_id));
                             }
                             break;
 

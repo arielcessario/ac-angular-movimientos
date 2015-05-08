@@ -307,6 +307,19 @@
             }
         };
 
+        this.deudores = function (sucursal_id, importe, cliente_id, comentario, usuario_id) {
+            return {
+                //'idAsiento': vm.asiento,
+                'cuenta_id': '1.1.2.01', // Deudores - Clientes
+                'importe': importe,
+                usuario_id: usuario_id,
+                'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '3', /* cliente_id*/ 'valor': cliente_id}
+                ]
+            }
+        };
+
 
     }
 
