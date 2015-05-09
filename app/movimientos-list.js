@@ -17,7 +17,7 @@
 
         this.cajaChica = function (sucursal_id, importe, comentario, usuario_id) {
             return {
-                cuenta_id: '1.1.1.' + sucursal_id, // Venta / Pago
+                cuenta_id: '1.1.1.0' + sucursal_id, // Venta / Pago
                 importe: importe,
                 usuario_id: usuario_id,
                 detalles: [
