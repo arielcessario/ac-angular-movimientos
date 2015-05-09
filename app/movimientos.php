@@ -133,7 +133,8 @@ function save($movimiento, $asiento_id){
         "cuenta_id" => $decoded->cuenta_id,
         "asiento_id" => $asiento_id,
         "importe" => $decoded->importe,
-        "usuario_id" => $decoded->usuario_id
+        "usuario_id" => $decoded->usuario_id,
+        "sucursal_id" => $decoded->sucursal_id
     );
 
     $id = $db->insert("movimientos", $data);

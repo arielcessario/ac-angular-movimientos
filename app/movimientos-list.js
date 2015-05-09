@@ -9,9 +9,11 @@
                 cuenta_id: '1.1.1.10', // Movimiento de caja
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
-                    {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
+                    {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
+                ]
             };
         };
 
@@ -20,6 +22,7 @@
                 cuenta_id: '1.1.1.0' + sucursal_id, // Venta / Pago
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
@@ -31,6 +34,7 @@
                 cuenta_id: '1.1.4.01', // Cobro con tarjeta
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '10', /* Tipo Tarjeta TC TD*/ 'valor': tarjeta},
@@ -43,6 +47,7 @@
                 cuenta_id: '2.1.2.01', // Tarjetas a pagar
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
@@ -54,6 +59,7 @@
                 cuenta_id: '5.2.1.01', // Sueldos pagados
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
@@ -65,6 +71,7 @@
                 cuenta_id: '4.1.1.01', // venta de mercaderias
                 importe: precio_total,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '9', /* Precio por Unidad*/ 'valor': precio_unidad},
@@ -80,6 +87,7 @@
                 cuenta_id: '4.1.1.02', // venta de servicios
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '3', /* cliente_id*/ 'valor': cliente_id},
@@ -93,6 +101,7 @@
                 cuenta_id: '1.1.5.01', // Insumos
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
@@ -105,6 +114,7 @@
                 cuenta_id: '5.2.1.02', // Aguinaldos
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
@@ -117,6 +127,7 @@
                 cuenta_id: '1.1.1.21', // CC
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': 'CC: ' +  comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
@@ -129,6 +140,7 @@
                 cuenta_id: '1.1.1.22', // CA
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': 'CA: ' +  comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
@@ -141,6 +153,7 @@
                 cuenta_id: '1.1.1.23', // Moneda extranjera
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '5', /* moneda_id*/ 'valor': moneda_id},
@@ -156,6 +169,7 @@
                 cuenta_id: '5.1.1.01', // CMV
                 importe: costo * cantidad,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '13', /* Cantidad*/ 'valor': cantidad},
@@ -171,6 +185,7 @@
                 cuenta_id: '1.2.1.01', // Bienes de Uso
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
@@ -183,6 +198,7 @@
                 cuenta_id: '1.2.1.01', // Bienes de Uso
                 importe: importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
@@ -195,6 +211,7 @@
                 cuenta_id: '1.1.7.01', // Mercaderias
                 importe: costo * cantidad,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 detalles: [
                     {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '9', /* Precio Unidad */ 'valor': costo},
@@ -211,6 +228,7 @@
                 'cuenta_id': '4.1.4.01', // Descuentos otorgados
                 'importe': importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
             }
@@ -226,6 +244,7 @@
                 'cuenta_id': '5.2.8.' + tipo_id, // Intereses y Comisiones
                 'importe': importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
             }
@@ -244,6 +263,7 @@
                 'cuenta_id': '5.2.4.' + tipo_id, // Impuestos y gastos generales
                 'importe': importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
             }
@@ -263,6 +283,7 @@
                 'cuenta_id': '5.2.5.' + tipo_id, // Otros Impuestos
                 'importe': importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
             }
@@ -280,6 +301,7 @@
                 'cuenta_id': '4.2.1.' + tipo_id, // Otros Impuestos
                 'importe': importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
             }
@@ -291,6 +313,7 @@
                 'cuenta_id': '5.2.2.01', // publicidad
                 'importe': importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
             }
@@ -302,6 +325,7 @@
                 'cuenta_id': '5.3.1.01', // Otros gastos
                 'importe': importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}]
             }
@@ -313,6 +337,7 @@
                 'cuenta_id': '1.1.2.01', // Deudores - Clientes
                 'importe': importe,
                 usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
                 'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id},
                     {'movimiento_id': -1, 'detalle_tipo_id': '3', /* cliente_id*/ 'valor': cliente_id}
