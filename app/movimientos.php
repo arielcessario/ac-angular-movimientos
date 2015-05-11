@@ -184,12 +184,17 @@ function saveDetalle($movimiento_id, $detalle){
 function deleteAsiento($id){
     $db = new MysqliDb();
 
-    $results = $db->rawQuery('select valor from detallesmovimientos where idMovimiento in (select movimiento_id from movimientos where asiento_id = '.$id.' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 8;');
+    $results = $db->rawQuery('select valor from detallesmovimientos where movimiento_id in (select movimiento_id from movimientos where asiento_id = '.$id.' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 8;');
     foreach($results as $row){
-        $restante = $db->rawQuery('select valor from detallesmovimientos where idMovimiento in (select movimiento_id from movimientos where asiento_id = '.$id.' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 13;');
+        $restante = $db->rawQuery('select valor from detallesmovimientos where movimiento_id in (select movimiento_id from movimientos where asiento_id = '.$id.' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 13;');
 
 
-        $stocks = $db->rawQuery('SELECT * FROM stock WHERE cant_actual < cant_total AND producto_id='.$row["valor"] .' ORDER BY fecha_compra DESC, cant_actual DESC LIMIT 30');
+        $db->where('cant_actual < cant_total');
+        $db->where('producto_id', $row["valor"]);
+        $db->orderBy('fecha_compra', 'asc');
+        $db->orderBy('cant_actual');
+        $stocks = $db->get('stock');
+
         foreach($stocks as $stock){
 
             if($restante[0]["valor"] > 0){

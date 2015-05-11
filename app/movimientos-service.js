@@ -323,12 +323,11 @@
                         });
                 }
 
-                function deleteAsiento(id) {
+                function deleteAsiento(id, callback) {
                     return $http.post(url,
                         {"function": "deleteAsiento", "id": id})
                         .success(function (data) {
-                            results(function () {
-                            }, data)
+                            callback(data);
                         })
                         .error(error)
                 }
