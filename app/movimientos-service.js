@@ -323,9 +323,9 @@
                         });
                 }
 
-                function deleteAsiento(id, callback) {
+                function deleteAsiento(id, sucursal_id, callback) {
                     return $http.post(url,
-                        {"function": "deleteAsiento", "id": id})
+                        {"function": "deleteAsiento", "id": id, "sucursal_id": sucursal_id})
                         .success(function (data) {
                             callback(data);
                         })
