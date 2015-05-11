@@ -28,7 +28,7 @@ if($decoded->function === 'get'){
 //    save($decoded->asiento);
 }else if($decoded->function === 'getmaxasiento') {
     getMaxAsiento();
-}else if($decoded->function === 'deleteasiento'){
+}else if($decoded->function === 'deleteAsiento'){
     deleteAsiento($decoded->id);
 }else if ($decoded->function === 'getProductos'){
     getProductos();
@@ -184,13 +184,46 @@ function saveDetalle($movimiento_id, $detalle){
 function deleteAsiento($id){
     $db = new MysqliDb();
 
-    $results = $db->rawQuery('select valor from detallesmovimientos where idMovimiento in (select idMovimiento from movimientos where idAsiento = '.$id.') and idTipoDetalle = 8;');
+    $results = $db->rawQuery('select valor from detallesmovimientos where idMovimiento in (select movimiento_id from movimientos where asiento_id = '.$id.' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 8;');
     foreach($results as $row){
-        $db->rawQuery('Update productos set stock = stock +1 where idProducto='.$row["valor"]);
+        $restante = $db->rawQuery('select valor from detallesmovimientos where idMovimiento in (select movimiento_id from movimientos where asiento_id = '.$id.' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 13;');
+
+
+        $stocks = $db->rawQuery('SELECT * FROM stock WHERE cant_actual < cant_total AND producto_id='.$row["valor"] .' ORDER BY fecha_compra DESC, cant_actual DESC LIMIT 30');
+        foreach($stocks as $stock){
+
+            if($restante[0]["valor"] > 0){
+                if($stock['cant_actual'] + $restante[0]["valor"] == $stock['cant_total']){
+
+                    $stock['cant_actual'] = $stock['cant_total'];
+                    $restante[0]["valor"] = 0;
+                }
+
+                if($stock['cant_actual'] + $restante[0]["valor"] < $stock['cant_total']){
+
+                    $stock['cant_actual'] = $stock['cant_actual'] + $restante[0]["valor"];
+                    $restante[0]["valor"] = $restante[0]["valor"] - $stock['cant_actual'];
+                }
+
+                if($stock['cant_actual'] + $restante[0]["valor"] > $stock['cant_total']){
+
+                    $stock['cant_actual'] = $stock['cant_total'];
+                    $restante[0]["valor"] = 0;
+                }
+
+
+            }
+
+
+
+
+        }
+
+//        $db->rawQuery('Update stock set cant_actual = cant_actual + 1 where producto_id='.$row["valor"]);
     }
 
-    $db->rawQuery("delete from detallesmovimientos where idMovimiento in (select idMovimiento from movimientos where idAsiento = ".$id.")");
-    $db->rawQuery("delete from movimientos where idAsiento = ".$id );
+//    $db->rawQuery("delete from detallesmovimientos where movimiento_id in (select movimiento_id from movimientos where asiento_id = ".$id.")");
+//    $db->rawQuery("delete from movimientos where asiento_id = ".$id );
 
     if($db->getLastError() !== ''){
         echo json_encode($db->getLastError());
