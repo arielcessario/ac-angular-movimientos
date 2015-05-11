@@ -325,7 +325,7 @@
 
                 function deleteAsiento(id) {
                     return $http.post(url,
-                        {"function": "deleteasiento", "id": id})
+                        {"function": "deleteAsiento", "id": id})
                         .success(function (data) {
                             results(function () {
                             }, data)
