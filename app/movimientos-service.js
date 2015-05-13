@@ -67,17 +67,23 @@
                             break;
                         case '002':
                             for (var i = 0; i < items.length; i++) {
-                                asiento.push(MovimientosList.mercaderias(sucursal_id, items[i].precio_unidad, 'Venta de Mercaderías', items[i].producto_id, items[i].cantidad));
+                                asiento.push(MovimientosList.mercaderias(sucursal_id, items[i].precio_unidad, 'Compra de Mercaderías', items[i].producto_id, items[i].cantidad));
                             }
+                            pagando = -1;
+                            detalle = 'Compra de Mercaderías';
+
                             break;
                         case '003':
                             for (var i = 0; i < items.length; i++) {
                                 asiento.push(MovimientosList.insumos(sucursal_id, items[i].precio_unidad, 'Venta de Mercaderías', items[i].producto_id, items[i].cantidad));
                             }
+                            pagando = -1;
+                            detalle = 'Compra de Insumos';
                             break;
                         case '004':
                             asiento.push(MovimientosList.ventaServicio(sucursal_id, total, comentario, cliente_id, usuario_id));
                             //sucursal_id, importe, comentario, cliente_id, usuario_id
+
                             break;
                         case '005':
                             asiento.push(MovimientosList.tarjetasAPagar(sucursal_id, total, comentario, usuario_id));
@@ -89,8 +95,10 @@
                         case '007':
                             if(subtipo_asiento == '01'){
                                 asiento.push(MovimientosList.sueldos(sucursal_id, total, comentario, usuario_id));
+                                detalle = 'Pago de sueldos';
                             }else{
                                 asiento.push(MovimientosList.aguinaldos(sucursal_id, total, comentario, usuario_id));
+                                detalle = 'Pago de aguinaldos';
                             }
 
                             pagando = -1;
@@ -100,6 +108,7 @@
                             //02 - MANTENIMIENTO DE CUENTAS
                             //03 - COMISIONES POR VENTAS CON TARJETA
                             asiento.push(MovimientosList.interesesComisiones(sucursal_id, total, comentario, subtipo_asiento, usuario_id));
+                            detalle = comentario;
                             pagando = -1;
                             break;
                         case '009':
@@ -110,6 +119,7 @@
                             //5.2.4.05	ALQUILERES
                             //5.2.4.06	EXPENSAS
                             asiento.push(MovimientosList.impuestosGenerales(sucursal_id, total, comentario, subtipo_asiento, usuario_id));
+                            detalle = comentario;
                             pagando = -1;
                             break;
                         case '010':
@@ -120,6 +130,7 @@
                             break;
                         case '012':
                             asiento.push(MovimientosList.otrosGastos(sucursal_id, total, comentario, usuario_id));
+                            detalle = comentario;
                             pagando = -1;
                             break;
                         case '014':
@@ -131,6 +142,7 @@
                             //5.2.5.06	PERCEPCION GANANCIAS
                             //5.2.5.07	PERCEPCION IIBB
                             asiento.push(MovimientosList.otrosImpuestos(sucursal_id, total, comentario, subtipo_asiento, usuario_id));
+                            detalle = comentario;
                             pagando = -1;
                             break;
                         case '015':
@@ -176,55 +188,55 @@
                     switch (forma_pago) {
                         case '01':
                             if (descuento !== '' && descuento > 0) {
-                                asiento.push(MovimientosList.cajaChica(sucursal_id, pagando * (total - descuento), detalle, usuario_id));
+                                asiento.push(MovimientosList.cajaChica(sucursal_id, pagando * (total - descuento), 'Caja Chica: ' +  detalle, usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
-                                asiento.push(MovimientosList.cajaChica(sucursal_id, pagando * total, detalle, usuario_id));
+                                asiento.push(MovimientosList.cajaChica(sucursal_id, pagando * total,'Caja Chica: ' + detalle, usuario_id));
                             }
                             break;
                         case '02':
                             //sucursal, importe, comentario, tarjeta, usuario_id
                             if (descuento !== '' && descuento > 0) {
-                                asiento.push(MovimientosList.cobroTarjeta(sucursal_id, pagando * (total - descuento), 'Cobro con Tarjeta de Debito', 'TD', usuario_id));
+                                asiento.push(MovimientosList.cobroTarjeta(sucursal_id, pagando * (total - descuento), 'TD: ' + detalle , 'TD', usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
-                                asiento.push(MovimientosList.cobroTarjeta(sucursal, pagando * total, 'Cobro con Tarjeta de Debito', 'TD', usuario_id));
+                                asiento.push(MovimientosList.cobroTarjeta(sucursal, pagando * total, 'TD: ' + detalle, 'TD', usuario_id));
                             }
                             break;
                         case '03':
                             //sucursal, importe, comentario, tarjeta, usuario_id
                             if (descuento !== '' && descuento > 0) {
-                                asiento.push(MovimientosList.cobroTarjeta(sucursal_id, pagando * (total - descuento), 'Cobro con Tarjeta de Crédito', 'TC', usuario_id));
+                                asiento.push(MovimientosList.cobroTarjeta(sucursal_id, pagando * (total - descuento), 'TC: ' + detalle, 'TC', usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
-                                asiento.push(MovimientosList.cobroTarjeta(sucursal_id, pagando * total, 'Cobro con Tarjeta de Crédito', 'TC', usuario_id));
+                                asiento.push(MovimientosList.cobroTarjeta(sucursal_id, pagando * total, 'TC: ' + detalle, 'TC', usuario_id));
                             }
                             break;
                         case '04':
                             //sucursal, importe, comentario, tarjeta, usuario_id
                             if (descuento !== '' && descuento > 0) {
-                                asiento.push(MovimientosList.bancoCA(sucursal_id, pagando * (total - descuento), comentario, usuario_id));
+                                asiento.push(MovimientosList.bancoCA(sucursal_id, pagando * (total - descuento), 'CA: ' + detalle, usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
-                                asiento.push(MovimientosList.bancoCA(sucursal_id, pagando * total, comentario, usuario_id));
+                                asiento.push(MovimientosList.bancoCA(sucursal_id, pagando * total, 'CA: ' + detalle , usuario_id));
                             }
                             break;
                         case '05':
                             //sucursal, importe, comentario, tarjeta, usuario_id
                             if (descuento !== '' && descuento > 0) {
-                                asiento.push(MovimientosList.bancoCC(sucursal_id, pagando * (total - descuento), comentario, usuario_id));
+                                asiento.push(MovimientosList.bancoCC(sucursal_id, pagando * (total - descuento), 'CC: ' + detalle, usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
-                                asiento.push(MovimientosList.bancoCC(sucursal_id, pagando * total, comentario, usuario_id));
+                                asiento.push(MovimientosList.bancoCC(sucursal_id, pagando * total, 'CC: ' + detalle, usuario_id));
                             }
                             break;
                         case '06':
                             //sucursal, importe, comentario, tarjeta, usuario_id
                             if (descuento !== '' && descuento > 0) {
-                                asiento.push(MovimientosList.cajaGeneral(sucursal_id, pagando * (total - descuento), comentario, usuario_id));
+                                asiento.push(MovimientosList.cajaGeneral(sucursal_id, pagando * (total - descuento), 'General: ' + detalle, usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
-                                asiento.push(MovimientosList.cajaGeneral(sucursal_id, pagando * total, comentario, usuario_id));
+                                asiento.push(MovimientosList.cajaGeneral(sucursal_id, pagando * total, 'General: ' + detalle , usuario_id));
                             }
                             break;
                         case '07':
