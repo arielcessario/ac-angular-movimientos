@@ -81,7 +81,9 @@
                             detalle = 'Compra de Insumos';
                             break;
                         case '004':
-                            asiento.push(MovimientosList.ventaServicio(sucursal_id, total, comentario, cliente_id, usuario_id));
+                            for (var i = 0; i < items.length; i++) {
+                                asiento.push(MovimientosList.ventaServicio(sucursal_id, items[i].importe, items[i].descripcion, cliente_id, usuario_id));
+                            }
                             //sucursal_id, importe, comentario, cliente_id, usuario_id
 
                             break;
