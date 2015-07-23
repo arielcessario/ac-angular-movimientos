@@ -29,7 +29,7 @@ if($decoded->function === 'get'){
 }else if($decoded->function === 'getmaxasiento') {
     getMaxAsiento();
 }else if($decoded->function === 'deleteAsiento'){
-    deleteAsiento($decoded->id, $decoded->$sucursal_id);
+    deleteAsiento($decoded->id, $decoded->sucursal_id);
 }else if ($decoded->function === 'getProductos'){
     getProductos();
 }
