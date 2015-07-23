@@ -352,7 +352,7 @@
                 usuario_id: usuario_id,
                 sucursal_id: sucursal_id,
                 detalles: [
-                    {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': 'CA: ' +  comentario},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id},
                     {'movimiento_id': -1, 'detalle_tipo_id': '3', /* cliente_id*/ 'valor': cliente_id}
                 ]

@@ -265,10 +265,10 @@
                         case '08':
                             //sucursal, importe, comentario, tarjeta, usuario_id
                             if (descuento !== '' && descuento > 0) {
-                                asiento.push(MovimientosList.mercadoPago(sucursal_id, pagando * (total - descuento),cliente_id,  'Mercado Pago: ', usuario_id));
+                                asiento.push(MovimientosList.mercadoPago(sucursal_id, pagando * (total - descuento),cliente_id,  'Mercado Pago', usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
-                                asiento.push(MovimientosList.mercadoPago(sucursal_id, pagando * total,cliente_id,  'Mercado Pago: ', usuario_id));
+                                asiento.push(MovimientosList.mercadoPago(sucursal_id, pagando * total,cliente_id,  'Mercado Pago', usuario_id));
                             }
                             break;
 
