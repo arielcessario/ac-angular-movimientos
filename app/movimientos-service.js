@@ -187,13 +187,22 @@
                     //05 - Transferencia CC
                     //06 - Caja General
                     //07 - Clientes
+                    //08 - Mercado Pago
+                    //09 - Mercado Libre Efectivo
+                    //10 - Mercado Libre Transferencia
+
+
                     switch (forma_pago) {
-                        case '01':
+                        case '01' || '09':
+                            var descr = (forma_pago == '01')?'Caja Chica: ': 'Caja Chica - ML: ';
+
+
+
                             if (descuento !== '' && descuento > 0) {
-                                asiento.push(MovimientosList.cajaChica(sucursal_id, pagando * (total - descuento), 'Caja Chica: ' +  detalle, usuario_id));
+                                asiento.push(MovimientosList.cajaChica(sucursal_id, pagando * (total - descuento), descr +  detalle, usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
-                                asiento.push(MovimientosList.cajaChica(sucursal_id, pagando * total,'Caja Chica: ' + detalle, usuario_id));
+                                asiento.push(MovimientosList.cajaChica(sucursal_id, pagando * total,descr + detalle, usuario_id));
                             }
                             break;
                         case '02':
@@ -207,6 +216,7 @@
                             break;
                         case '03':
                             //sucursal, importe, comentario, tarjeta, usuario_id
+
                             if (descuento !== '' && descuento > 0) {
                                 asiento.push(MovimientosList.cobroTarjeta(sucursal_id, pagando * (total - descuento), 'TC: ' + detalle, 'TC', usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
@@ -214,13 +224,15 @@
                                 asiento.push(MovimientosList.cobroTarjeta(sucursal_id, pagando * total, 'TC: ' + detalle, 'TC', usuario_id));
                             }
                             break;
-                        case '04':
+                        case '04' || '10':
                             //sucursal, importe, comentario, tarjeta, usuario_id
+                            var descr = (forma_pago == '04')?'CA: ': 'CA - ML: ';
+
                             if (descuento !== '' && descuento > 0) {
-                                asiento.push(MovimientosList.bancoCA(sucursal_id, pagando * (total - descuento), 'CA: ' + detalle, usuario_id));
+                                asiento.push(MovimientosList.bancoCA(sucursal_id, pagando * (total - descuento), descr + detalle, usuario_id));
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
-                                asiento.push(MovimientosList.bancoCA(sucursal_id, pagando * total, 'CA: ' + detalle , usuario_id));
+                                asiento.push(MovimientosList.bancoCA(sucursal_id, pagando * total, descr + detalle , usuario_id));
                             }
                             break;
                         case '05':
@@ -248,6 +260,15 @@
                                 asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
                             } else {
                                 asiento.push(MovimientosList.deudores(sucursal_id, pagando * total,cliente_id,  'Ingreso a Deudores', usuario_id));
+                            }
+                            break;
+                        case '08':
+                            //sucursal, importe, comentario, tarjeta, usuario_id
+                            if (descuento !== '' && descuento > 0) {
+                                asiento.push(MovimientosList.mercadoPago(sucursal_id, pagando * (total - descuento),cliente_id,  'Mercado Pago: ', usuario_id));
+                                asiento.push(MovimientosList.descuentos(descuento, 'Descuentos Otorgados', usuario_id));
+                            } else {
+                                asiento.push(MovimientosList.mercadoPago(sucursal_id, pagando * total,cliente_id,  'Mercado Pago: ', usuario_id));
                             }
                             break;
 

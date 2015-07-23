@@ -345,6 +345,20 @@
             }
         };
 
+        this.mercadoPago = function (sucursal_id, importe,cliente_id, comentario, usuario_id) {
+            return {
+                cuenta_id: '1.1.1.24', // Mercado Pago
+                importe: importe,
+                usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
+                detalles: [
+                    {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': 'CA: ' +  comentario},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '3', /* cliente_id*/ 'valor': cliente_id}
+                ]
+            };
+        };
+
 
     }
 
