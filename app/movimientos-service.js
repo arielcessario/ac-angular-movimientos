@@ -59,7 +59,16 @@
                         case '001':
                             for (var i = 0; i < items.length; i++) {
                                 asiento.push(MovimientosList.ventaMercaderias(sucursal_id, items[i].producto_id, items[i].precio_unidad, items[i].cantidad, items[i].precio_total, 'Venta de producto', usuario_id));
-                                getCosto(items[i], asiento, sucursal_id, usuario_id);
+                                //Obtiene los costos para los productos que conforman el kit o solo para el producto
+                                if (items[i].productos_kit.length > 0) {
+                                    for (var x = 0; x < items[i].productos_kit.length; x++) {
+                                        getCosto(items[i].productos_kit[x], asiento, sucursal_id, usuario_id);
+                                    }
+                                } else {
+
+                                    getCosto(items[i], asiento, sucursal_id, usuario_id);
+                                }
+
 
                             }
                             //pagando = -1;
@@ -280,7 +289,7 @@
                 function getCosto(item, asiento, sucursal_id, usuario_id) {
 
 
-                    var cant_a_vender = item.cantidad;
+                    var cant_a_vender = item.cantidad || 1;
                     var stock_final_item = {};
                     var stocks_finales = [];
 
