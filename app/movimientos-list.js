@@ -2,6 +2,20 @@
     angular.module('acMovimientosList', [])
         .service('MovimientosList', MovimientosList);
 
+    //1 Código de Usuario
+    //2 Detalle
+    //3 Código de Cliente
+    //4 Código de Ocupación
+    //5 Código de Moneda
+    //6 Cotizacion
+    //7 Monto en Moneda
+    //8 Código de Producto
+    //9 Precio por Unidad
+    //10 Tipo de Tarjeta
+    //11 Costo
+    //12 Sucursal
+    //13 Cantidad
+    //14 Codigo de Proveedor
 
     function MovimientosList() {
         this.cajaGeneral = function (sucursal_id, importe, comentario, usuario_id) {
@@ -206,7 +220,7 @@
             };
         };
 
-        this.mercaderias = function (sucursal_id, costo, comentario, producto_id, cantidad, usuario_id) {
+        this.mercaderias = function (sucursal_id, costo, comentario, producto_id, cantidad, proveedor_id, usuario_id) {
             return {
                 cuenta_id: '1.1.7.01', // Mercaderias
                 importe: costo * cantidad,
@@ -217,6 +231,7 @@
                     {'movimiento_id': -1, 'detalle_tipo_id': '9', /* Precio Unidad */ 'valor': costo},
                     {'movimiento_id': -1, 'detalle_tipo_id': '13', /* Cantidad*/ 'valor': cantidad},
                     {'movimiento_id': -1, 'detalle_tipo_id': '8', /* Código de Producto*/ 'valor': producto_id},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '14', /* Código de Proveedor*/ 'valor': proveedor_id},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
                 ]
             };

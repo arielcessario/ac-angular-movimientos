@@ -75,8 +75,10 @@
 
                             break;
                         case '002':
-                            for (var i = 0; i < items.length; i++) {
-                                asiento.push(MovimientosList.mercaderias(sucursal_id, items[i].precio_unidad, 'Compra de Mercaderías', items[i].producto_id, items[i].cantidad));
+                            var list_items = items.detalles;
+                            for (var i = 0; i < list_items.length; i++) {
+                                //(sucursal_id, costo, comentario, producto_id, cantidad, proveedor_id, usuario_id)
+                                asiento.push(MovimientosList.mercaderias(sucursal_id, list_items[i].precio_unidad, 'Compra de Mercaderías', list_items[i].producto_id, list_items[i].cantidad, list_items.proveedor_id, usuario_id));
                             }
                             pagando = -1;
                             detalle = 'Compra de Mercaderías';
