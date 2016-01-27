@@ -31,6 +31,19 @@
             };
         };
 
+        this.cajaGeneralSucursal = function (sucursal_id, importe, comentario, usuario_id) {
+            return {
+                cuenta_id: '1.1.1.3' + sucursal_id, // Movimiento de caja
+                importe: importe,
+                usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
+                detalles: [
+                    {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
+                ]
+            };
+        };
+
         this.cajaChica = function (sucursal_id, importe, comentario, usuario_id) {
             return {
                 cuenta_id: '1.1.1.0' + sucursal_id, // Venta / Pago
@@ -237,6 +250,42 @@
             };
         };
 
+
+        this.desperdicios = function (sucursal_id, costo, comentario, producto_id, cantidad, proveedor_id, usuario_id) {
+            return {
+                cuenta_id: '5.2.7.02', // Mercaderias
+                importe: costo * cantidad,
+                usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
+                detalles: [
+                    {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '9', /* Precio Unidad */ 'valor': costo},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '13', /* Cantidad*/ 'valor': cantidad},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '8', /* Código de Producto*/ 'valor': producto_id},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '14', /* Código de Proveedor*/ 'valor': proveedor_id},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
+                ]
+            };
+        };
+
+
+        this.productos_en_proceso = function (sucursal_id, costo, comentario, producto_id, cantidad, proveedor_id, usuario_id) {
+            return {
+                cuenta_id: '1.1.7.02', // Productos en proceso
+                importe: costo * cantidad,
+                usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
+                detalles: [
+                    {'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '9', /* Precio Unidad */ 'valor': costo},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '13', /* Cantidad*/ 'valor': cantidad},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '8', /* Código de Producto*/ 'valor': producto_id},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '14', /* Código de Proveedor*/ 'valor': proveedor_id},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id}
+                ]
+            };
+        };
+
         this.descuentos = function (sucursal_id, importe, comentario, usuario_id) {
             return {
                 //'idAsiento': vm.asiento,
@@ -356,6 +405,20 @@
                 'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
                     {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id},
                     {'movimiento_id': -1, 'detalle_tipo_id': '3', /* cliente_id*/ 'valor': cliente_id}
+                ]
+            }
+        };
+
+        this.proveedores = function (sucursal_id, importe, cliente_id, comentario, usuario_id) {
+            return {
+                //'idAsiento': vm.asiento,
+                'cuenta_id': '2.1.1.01', // Deudores - Clientes
+                'importe': importe,
+                usuario_id: usuario_id,
+                sucursal_id: sucursal_id,
+                'detalles': [{'movimiento_id': -1, 'detalle_tipo_id': '2', /* Detalle*/ 'valor': comentario},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '12', /* Sucursal */ 'valor':sucursal_id},
+                    {'movimiento_id': -1, 'detalle_tipo_id': '14', /* proveedor_id*/ 'valor': cliente_id}
                 ]
             }
         };

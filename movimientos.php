@@ -2,35 +2,61 @@
 
 session_start();
 
-if(file_exists('./MyDBi.php'))
-{
-    require_once './MyDBi.php';
-}else{
-    require_once '../../../MyDBi.php';
-}
+// Token
+$decoded_token = null;
 
+if (file_exists('../../../includes/MyDBi.php')) {
+    require_once '../../../includes/MyDBi.php';
+    require_once '../../../includes/config.php';
+} else {
+    require_once 'MyDBi.php';
+}
 
 $data = file_get_contents("php://input");
 
+// Decode data from js
 $decoded = json_decode($data);
 
-if($decoded->function === 'get'){
+
+// Si la seguridad está activa
+if ($jwt_enabled) {
+
+    // Carga el jwt_helper
+    if (file_exists('../../../jwt_helper.php')) {
+        require_once '../../../jwt_helper.php';
+    } else {
+        require_once 'jwt_helper.php';
+    }
+
+
+    // Las funciones en el if no necesitan usuario logged
+    if (($decoded == null) && (($_GET["function"] != null) &&
+            ($_GET["function"] == 'getProductos'))
+    ) {
+        $token = '';
+    } else {
+        checkSecurity();
+    }
+
+}
+
+if ($decoded->function === 'get') {
     get($decoded->params);
-}else if($decoded->function === 'save') {
+} else if ($decoded->function === 'save') {
 
 
     $asiento_id = json_decode(getMaxAsiento());
     $asiento_id = $asiento_id + 1;
 
-    foreach(json_decode($decoded->params) as $movimiento){
+    foreach (json_decode($decoded->params) as $movimiento) {
         save($movimiento, $asiento_id);
     }
 //    save($decoded->asiento);
-}else if($decoded->function === 'getmaxasiento') {
+} else if ($decoded->function === 'getmaxasiento') {
     getMaxAsiento();
-}else if($decoded->function === 'deleteAsiento'){
+} else if ($decoded->function === 'deleteAsiento') {
     deleteAsiento($decoded->id, $decoded->sucursal_id);
-}else if ($decoded->function === 'getProductos'){
+} else if ($decoded->function === 'getProductos') {
     getProductos();
 }
 
@@ -101,26 +127,28 @@ function getProductos()
 }
 
 
-function get($params){
+function get($params)
+{
 
 }
 
-function getMaxAsiento(){
+function getMaxAsiento()
+{
 
     $db = new MysqliDb();
     $results = $db->rawQuery("select max(asiento_id) asiento from movimientos");
-    if($results[0]['asiento'] === null){
+    if ($results[0]['asiento'] === null) {
         echo 0;
-    }else{
+    } else {
         echo json_encode($results[0]['asiento']);
         return $results[0]['asiento'];
     }
 
 
-
 }
 
-function save($movimiento, $asiento_id){
+function save($movimiento, $asiento_id)
+{
 
 
     $db = new MysqliDb();
@@ -138,12 +166,11 @@ function save($movimiento, $asiento_id){
     );
 
     $id = $db->insert("movimientos", $data);
-    if($id){
-        foreach($decoded->detalles as $detalle){
+    if ($id) {
+        foreach ($decoded->detalles as $detalle) {
             saveDetalle($id, $detalle);
         }
     }
-
 
 
 //    print_r($query["sql"]);
@@ -152,11 +179,12 @@ function save($movimiento, $asiento_id){
     if ($id) {
         echo 'Dato guardado con éxito';
     } else {
-        echo json_encode(Array("Error"=>$db->getLastError())) ;
+        echo json_encode(Array("Error" => $db->getLastError()));
     }
 }
 
-function saveDetalle($movimiento_id, $detalle){
+function saveDetalle($movimiento_id, $detalle)
+{
     $db = new MysqliDb();
     $decoded = $detalle;
 
@@ -170,24 +198,24 @@ function saveDetalle($movimiento_id, $detalle){
     $id = $db->insert("detallesmovimientos", $data);
 
 
-
 //    print_r($query["sql"]);
 //    $result = $query["status"];
 //    echo $db->getLastError();
     if ($id) {
         echo 'Dato guardado con éxito';
     } else {
-        echo json_encode(Array("Error"=>$db->getLastError())) ;
+        echo json_encode(Array("Error" => $db->getLastError()));
     }
 }
 
-function deleteAsiento($id, $sucursal_id){
+function deleteAsiento($id, $sucursal_id)
+{
     $db = new MysqliDb();
     $db_upd = new MysqliDb();
 
-    $results = $db->rawQuery('select valor from detallesmovimientos where movimiento_id in (select movimiento_id from movimientos where asiento_id = '.$id.' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 8;');
-    foreach($results as $row){
-        $restante = $db->rawQuery('select valor from detallesmovimientos where movimiento_id in (select movimiento_id from movimientos where asiento_id = '.$id.' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 13;');
+    $results = $db->rawQuery('select valor from detallesmovimientos where movimiento_id in (select movimiento_id from movimientos where asiento_id = ' . $id . ' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 8;');
+    foreach ($results as $row) {
+        $restante = $db->rawQuery('select valor from detallesmovimientos where movimiento_id in (select movimiento_id from movimientos where asiento_id = ' . $id . ' AND cuenta_id like "4.1.1.%") and detalle_tipo_id = 13;');
 
 
         $db->where('cant_actual < cant_total');
@@ -197,34 +225,32 @@ function deleteAsiento($id, $sucursal_id){
         $db->orderBy('cant_actual');
         $stocks = $db->get('stock');
 
-        foreach($stocks as $stock){
+        foreach ($stocks as $stock) {
 
-            if($restante[0]["valor"] > 0){
-                if($stock['cant_actual'] + $restante[0]["valor"] == $stock['cant_total']){
+            if ($restante[0]["valor"] > 0) {
+                if ($stock['cant_actual'] + $restante[0]["valor"] == $stock['cant_total']) {
 
                     $stock['cant_actual'] = $stock['cant_total'];
                     $restante[0]["valor"] = 0;
                 }
 
-                if($stock['cant_actual'] + $restante[0]["valor"] < $stock['cant_total']){
+                if ($stock['cant_actual'] + $restante[0]["valor"] < $stock['cant_total']) {
 
                     $stock['cant_actual'] = $stock['cant_actual'] + $restante[0]["valor"];
                     $restante[0]["valor"] = $restante[0]["valor"] - $stock['cant_actual'];
                 }
 
-                if($stock['cant_actual'] + $restante[0]["valor"] > $stock['cant_total']){
+                if ($stock['cant_actual'] + $restante[0]["valor"] > $stock['cant_total']) {
 
                     $stock['cant_actual'] = $stock['cant_total'];
                     $restante[0]["valor"] = 0;
                 }
 
 
-                $SQL = 'Update stock set cant_actual = '.$stock['cant_actual'].' where stock_id='.$stock["stock_id"];
+                $SQL = 'Update stock set cant_actual = ' . $stock['cant_actual'] . ' where stock_id=' . $stock["stock_id"];
                 $db->rawQuery($SQL);
 
             }
-
-
 
 
         }
@@ -232,10 +258,10 @@ function deleteAsiento($id, $sucursal_id){
 //        $db->rawQuery('Update stock set cant_actual = cant_actual + 1 where producto_id='.$row["valor"]);
     }
 
-    $db->rawQuery("delete from detallesmovimientos where movimiento_id in (select movimiento_id from movimientos where asiento_id = ".$id.")");
-    $db->rawQuery("delete from movimientos where asiento_id = ".$id );
+    $db->rawQuery("delete from detallesmovimientos where movimiento_id in (select movimiento_id from movimientos where asiento_id = " . $id . ")");
+    $db->rawQuery("delete from movimientos where asiento_id = " . $id);
 
-    if($db->getLastError() !== ''){
+    if ($db->getLastError() !== '') {
         echo json_encode($db->getLastError());
     }
 }
